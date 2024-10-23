@@ -26,17 +26,17 @@ def _get_and_convert_contours(polygonList, raster_img_size, poly_def):
         perim_list.append(perim_c)
         for pi in poly.interiors:
             interior = np.array(list(pi.coords))
-#            interior_c = _convert_coordinates_to_raster(interior, raster_img_size)
+            #interior_c = _convert_coordinates_to_raster(interior, raster_img_size)
             interior_list.append(np.int32(interior[:,:-1]))
+            
     return perim_list,interior_list
 
 
 def _plot_mask_from_contours(raster_img_size, ext_pts, int_pts, class_value = 1):
     img_mask = np.zeros(raster_img_size,np.uint8)
-
-    ext_pointsnp = np.asarray(ext_pts)
-    cv2.fillPoly(img_mask, np.asarray(ext_pts),1)
-    cv2.fillPoly(img_mask, np.asarray(int_pts),0)
+    ext_pointsnp = np.asarray(ext_pts, dtype="object")
+    cv2.fillPoly(img_mask, np.asarray(ext_pts, dtype="object"),1)
+    cv2.fillPoly(img_mask, np.asarray(int_pts, dtype="object"),0)
     return img_mask
 
 def generate_mask_for_image_and_class(raster_size, imageId, wkt_list_pandas):
